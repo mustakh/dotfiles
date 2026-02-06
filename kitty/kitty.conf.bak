@@ -15,13 +15,15 @@
 # italic_font      auto
 # bold_italic_font auto
 
-font_size 19
+font_size 24
 font_weight 700
 # Disable programming ligatures on cursor hover
 disable_ligatures cursor
+# macos_titlebar_color #000000
 # Thickness of beam cursor
 cursor_beam_thickness 1.2
 # background #181818
+# macos_titlebar_color #181818
 # MOUSE
 # url_color #415c6d
 url_style curly
@@ -32,13 +34,15 @@ enable_audio_bell no
 # visual_bell_color #859289
 
 # WINDOW LAYOUT
-background #1a1918
-macos_titlebar_color background
+# macos_titlebar_color #181616
+# macos_titlebar_color #000000
 
+# macos_titlebar_color #191724
 # Hide window title text in macOS titlebar
 macos_titlebar_hide_title yes
 
 window_padding_width 10
+# macos_titlebar_color #1c1918
 placement_strategy top-left
 
 # Color for border of active window
@@ -289,13 +293,13 @@ map kitty_mod+f6 debug_config
 map opt+cmd+,    debug_config
 
 # BEGIN_KITTY_THEME
-# Adwaita darker
+# Symfonic
 include current-theme.conf
 # END_KITTY_THEME
 
 # --- Cursor override ---
-cursor #ffffff
-cursor_text_color #000000
+# cursor #cba6f7
+# cursor_text_color #1e1e2e
 cursor_shape block
 cursor_blink_interval 0
 

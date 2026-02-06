@@ -40,6 +40,12 @@ vim.opt.scrolloff = 8
 -- Wrapping
 vim.opt.wrap = false
 
+-- Folding
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldlevel = 99
+vim.opt.foldenable = true
+
 -- Listchars
 vim.opt.list = false
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
@@ -59,11 +65,22 @@ end)
 -- Neovide specific settings
 if vim.g.neovide then
   vim.g.neovide_scroll_animation_length = 0
+  -- Настройка шрифта для Neovide
+  vim.g.neovide_font = 'JetBrains Mono:h14'
+  vim.g.neovide_font_antialiasing = true
+  vim.g.neovide_refresh_rate = 60
+  vim.g.neovide_refresh_rate_idle = 5
+  vim.g.neovide_remember_dimensions = true
+  vim.g.neovide_hide_mouse_when_typing = true
 end
+
+-- Font settings for terminal Neovim (if supported by terminal)
+vim.opt.guifont = 'JetBrains Mono:h14'
 
 -- Custom highlights
 vim.cmd [[
   highlight DiffAdd guibg=#1e2f1e guifg=none
   highlight DiffDelete guibg=#331c1c guifg=none
   highlight DiffChange guibg=#1c1f33 guifg=none
+  highlight Cursor guifg=#331c1c guibg=none
 ]]

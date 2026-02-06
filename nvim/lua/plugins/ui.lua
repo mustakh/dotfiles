@@ -2,21 +2,72 @@
 
 return {
   -- Colorscheme
+  -- {
+  --   'mofiqul/vscode.nvim',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require('vscode').setup {
+  --       transparent = true,
+  --       italic_comments = false,
+  --       disable_italic = true,
+  --       disable_bold = true,
+  --     }
+  --
+  --     function ColorMyPencils(color)
+  --       color = color or 'vscode'
+  --       vim.cmd.colorscheme(color)
+  --
+  --       vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+  --       vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+  --     end
+  --
+  --     ColorMyPencils()
+  --   end,
+  -- },
+  -- {
+  --   'rose-pine/neovim',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require('rose-pine').setup {
+  --       styles = {
+  --         italic = false,
+  --         bold = false,
+  --       }
+  --     }
+  --     function ColorMyPencils(color)
+  --       color = color or 'rose-pine'
+  --       vim.cmd.colorscheme(color)
+  --
+  --       vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+  --       vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+  --     end
+  --
+  --     ColorMyPencils()
+  --   end,
+  -- },
   {
-    'rose-pine/neovim',
-    name = 'rose-pine',
+    'datsfilipe/vesper.nvim',
     lazy = false,
     priority = 1000,
     config = function()
-      require('rose-pine').setup {
-        disable_background = true,
-        styles = {
-          italic = false,
+      require('vesper').setup {
+        transparent = false, -- Boolean: Sets the background to transparent
+        italics = {
+          comments = false, -- Boolean: Italicizes comments
+          keywords = false, -- Boolean: Italicizes keywords
+          functions = false, -- Boolean: Italicizes functions
+          strings = false, -- Boolean: Italicizes strings
+          variables = false, -- Boolean: Italicizes variables
         },
+        overrides = {
+          String = { fg = '#A3BE8C' },
+        }, -- A dictionary of group names, can be a function returning a dictionary or a table.
+        palette_overrides = {},
       }
-
       function ColorMyPencils(color)
-        color = color or 'rose-pine'
+        color = color or 'vesper'
         vim.cmd.colorscheme(color)
 
         vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })

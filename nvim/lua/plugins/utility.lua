@@ -63,7 +63,22 @@ return {
       vim.keymap.set('n', '<leader>4', function()
         mark:select(4)
       end, { desc = 'Перейти к файлу 4' })
-    end,
+      vim.keymap.set('n', '<leader>5', function()
+        mark:select(5)
+      end, { desc = 'Перейти к файлу 5' })
+      vim.keymap.set('n', '<leader>6', function()
+        mark:select(6)
+      end, { desc = 'Перейти к файлу 6' })
+      vim.keymap.set('n', '<leader>7', function()
+        mark:select(7)
+      end, { desc = 'Перейти к файлу 7' })
+      vim.keymap.set('n', '<leader>8', function()
+        mark:select(8)
+      end, { desc = 'Перейти к файлу 8' })
+      vim.keymap.set('n', '<leader>9', function()
+        mark:select(9)
+      end, { desc = 'Перейти к файлу 9' })
+        end,
   },
 
   {
