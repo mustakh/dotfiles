@@ -1,86 +1,65 @@
--- Options configuration file
--- This file contains all the vim options and settings
+vim.g.mapleader = " "
 
--- Set leader keys
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.opt.encoding = "utf-8"
+vim.opt.fileencoding = "utf-8"
 
--- UI options
 vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.mouse = 'a'
-vim.opt.showmode = false
-vim.opt.termguicolors = true
-vim.opt.signcolumn = 'yes'
-vim.opt.colorcolumn = '80'
-vim.opt.cursorline = false
 
--- Indentation and whitespace
+vim.opt.title = true
+vim.opt.autoindent = true
+vim.opt.smartindent = true
+vim.opt.hlsearch = true
+vim.opt.backup = false
+vim.opt.showcmd = true
+vim.opt.cmdheight = 1
+vim.opt.laststatus = 3
 vim.opt.expandtab = true
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.softtabstop = 2
+vim.opt.scrolloff = 10
+vim.opt.shell = "fish"
+vim.opt.backupskip = { "/tmp/*", "/private/tmp/*" }
+vim.opt.inccommand = "split"
+vim.opt.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
+vim.opt.smarttab = true
 vim.opt.breakindent = true
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.wrap = false -- No Wrap lines
+vim.opt.backspace = { "start", "eol", "indent" }
+vim.opt.path:append({ "**" }) -- Finding files - Search down into subfolders
+vim.opt.wildignore:append({ "*/node_modules/*" })
+vim.opt.splitbelow = true -- Put new windows below current
+vim.opt.splitright = true -- Put new windows right of current
+vim.opt.splitkeep = "cursor"
 
--- Search
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-
--- Timing
-vim.opt.updatetime = 250
-vim.opt.timeoutlen = 300
-
--- Window splitting
-vim.opt.splitright = true
-vim.opt.splitbelow = true
-
--- Scrolling
-vim.opt.scrolloff = 8
-
--- Wrapping
-vim.opt.wrap = false
-
--- Folding
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-vim.opt.foldlevel = 99
+-- Сворачивание (folding) блоков кода
 vim.opt.foldenable = true
+vim.opt.foldlevelstart = 99 -- при открытии файла все свёртки развёрнуты
+vim.opt.foldcolumn = "1" -- колонка со значками свёрток слева (0 = выключить)
+-- Tree-sitter сам выставит foldmethod=expr и foldexpr при включённом opts.fold
+-- Включить мышь: скролл колёсиком, клики, выделение
+vim.opt.mouse = "a"
 
--- Listchars
-vim.opt.list = false
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+-- Undercurl
+vim.cmd([[let &t_Cs = "\e[4:3m"]])
+vim.cmd([[let &t_Ce = "\e[4:0m"]])
 
--- Command behavior
-vim.opt.inccommand = 'split'
+-- Add asterisks in block comments
+vim.opt.formatoptions:append({ "r" })
 
--- File handling
-vim.opt.undofile = true
-vim.opt.confirm = true
+vim.cmd([[au BufNewFile,BufRead *.astro setf astro]])
+vim.cmd([[au BufNewFile,BufRead Podfile setf ruby]])
 
--- Clipboard
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
-
--- Neovide specific settings
-if vim.g.neovide then
-  vim.g.neovide_scroll_animation_length = 0
-  -- Настройка шрифта для Neovide
-  vim.g.neovide_font = 'JetBrains Mono:h14'
-  vim.g.neovide_font_antialiasing = true
-  vim.g.neovide_refresh_rate = 60
-  vim.g.neovide_refresh_rate_idle = 5
-  vim.g.neovide_remember_dimensions = true
-  vim.g.neovide_hide_mouse_when_typing = true
+if vim.fn.has("nvim-0.8") == 1 then
+	vim.opt.cmdheight = 0
 end
 
--- Font settings for terminal Neovim (if supported by terminal)
-vim.opt.guifont = 'JetBrains Mono:h14'
+-- File types
+vim.filetype.add({
+	extension = {
+		mdx = "mdx",
+	},
+})
 
--- Custom highlights
-vim.cmd [[
-  highlight DiffAdd guibg=#1e2f1e guifg=none
-  highlight DiffDelete guibg=#331c1c guifg=none
-  highlight DiffChange guibg=#1c1f33 guifg=none
-  highlight Cursor guifg=#331c1c guibg=none
-]]
+vim.g.lazyvim_prettier_needs_config = true
+vim.g.lazyvim_picker = "telescope"
+vim.g.lazyvim_cmp = "blink.cmp"

@@ -1,0 +1,15 @@
+theme = Rose Pine
+
+font-family = "PlemolJP Console NF"
+background = #000000
+
+cursor-style = block
+cursor-style-blink = true
+cursor-color = #ffffff
+cursor-text = #000000
+
+#keybind = global:cmd+ctrl+shift+j=toggle_visibility
+
+macos-option-as-alt = left
+keybind = alt+left=unbind
+keybind = alt+right=unbind

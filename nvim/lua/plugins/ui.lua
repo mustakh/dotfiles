@@ -1,145 +1,146 @@
--- UI plugins configuration
-
 return {
-  -- Colorscheme
-  -- {
-  --   'mofiqul/vscode.nvim',
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     require('vscode').setup {
-  --       transparent = true,
-  --       italic_comments = false,
-  --       disable_italic = true,
-  --       disable_bold = true,
-  --     }
-  --
-  --     function ColorMyPencils(color)
-  --       color = color or 'vscode'
-  --       vim.cmd.colorscheme(color)
-  --
-  --       vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
-  --       vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
-  --     end
-  --
-  --     ColorMyPencils()
-  --   end,
-  -- },
-  -- {
-  --   'rose-pine/neovim',
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     require('rose-pine').setup {
-  --       styles = {
-  --         italic = false,
-  --         bold = false,
-  --       }
-  --     }
-  --     function ColorMyPencils(color)
-  --       color = color or 'rose-pine'
-  --       vim.cmd.colorscheme(color)
-  --
-  --       vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
-  --       vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
-  --     end
-  --
-  --     ColorMyPencils()
-  --   end,
-  -- },
-  {
-    'datsfilipe/vesper.nvim',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require('vesper').setup {
-        transparent = false, -- Boolean: Sets the background to transparent
-        italics = {
-          comments = false, -- Boolean: Italicizes comments
-          keywords = false, -- Boolean: Italicizes keywords
-          functions = false, -- Boolean: Italicizes functions
-          strings = false, -- Boolean: Italicizes strings
-          variables = false, -- Boolean: Italicizes variables
-        },
-        overrides = {
-          String = { fg = '#A3BE8C' },
-        }, -- A dictionary of group names, can be a function returning a dictionary or a table.
-        palette_overrides = {},
-      }
-      function ColorMyPencils(color)
-        color = color or 'vesper'
-        vim.cmd.colorscheme(color)
+	-- messages, cmdline and the popupmenu
+	{
+		"folke/noice.nvim",
+		opts = function(_, opts)
+			-- Не перехватывать vim.notify() во всплывающие окна
+			-- (иначе уведомления от lazy.nvim и других плагинов будут показываться как popup)
+			opts.notify = opts.notify or {}
+			opts.notify.enabled = false
 
-        vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
-        vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
-      end
+			table.insert(opts.routes, {
+				filter = {
+					event = "notify",
+					find = "No information available",
+				},
+				opts = { skip = true },
+			})
 
-      ColorMyPencils()
-    end,
-  },
+			opts.commands = {
+				all = {
+					-- options for the message history that you get with `:Noice`
+					view = "split",
+					opts = { enter = true, format = "details" },
+					filter = {},
+				},
+			}
 
-  -- Statusline
-  {
-    'echasnovski/mini.nvim',
-    config = function()
-      local statusline = require 'mini.statusline'
-      statusline.setup { use_icons = vim.g.have_nerd_font }
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "markdown",
+				callback = function(event)
+					vim.schedule(function()
+						require("noice.text.markdown").keys(event.buf)
+					end)
+				end,
+			})
 
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
-    end,
-  },
+			opts.presets.lsp_doc_border = true
+		end,
+	},
 
-  -- Which-key for keybinding hints
-  {
-    'folke/which-key.nvim',
-    event = 'VimEnter',
-    opts = {
-      delay = 0,
-      icons = {
-        mappings = vim.g.have_nerd_font,
-        keys = vim.g.have_nerd_font and {} or {
-          Up = '<Up> ',
-          Down = '<Down> ',
-          Left = '<Left> ',
-          Right = '<Right> ',
-          C = '<C-…> ',
-          M = '<M-…> ',
-          D = '<D-…> ',
-          S = '<S-…> ',
-          CR = '<CR> ',
-          Esc = '<Esc> ',
-          ScrollWheelDown = '<ScrollWheelDown> ',
-          ScrollWheelUp = '<ScrollWheelUp> ',
-          NL = '<NL> ',
-          BS = '<BS> ',
-          Space = '<Space> ',
-          Tab = '<Tab> ',
-          F1 = '<F1>',
-          F2 = '<F2>',
-          F3 = '<F3>',
-          F4 = '<F4>',
-          F5 = '<F5>',
-          F6 = '<F6>',
-          F7 = '<F7>',
-          F8 = '<F8>',
-          F9 = '<F9>',
-          F10 = '<F10>',
-          F11 = '<F11>',
-          F12 = '<F12>',
-        },
-      },
-      spec = {
-        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-        { '<leader>d', group = '[D]ocument' },
-        { '<leader>r', group = '[R]ename' },
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>w', group = '[W]orkspace' },
-        { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-      },
-    },
-  },
+	{
+		"snacks.nvim",
+		opts = {
+			scroll = { enabled = false },
+			indent = { enabled = false },  -- убрать вертикальные полоски отступов
+			scope = { enabled = false },  -- убрать подсветку текущего блока
+		},
+	},
+
+	-- buffer line
+	{
+		"akinsho/bufferline.nvim",
+		event = "VeryLazy",
+		keys = {
+			{ "<Tab>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next tab" },
+			{ "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev tab" },
+		},
+		opts = {
+			options = {
+				mode = "tabs",
+				-- separator_style = "slant",
+				show_buffer_close_icons = false,
+				show_close_icon = false,
+			},
+		},
+	},
+
+	-- filename
+	{
+		"b0o/incline.nvim",
+		event = "BufReadPre",
+		priority = 1200,
+		config = function()
+			require("incline").setup({
+				window = { margin = { vertical = 0, horizontal = 1 } },
+				hide = {
+					cursorline = true,
+				},
+				render = function(props)
+					local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+					if vim.bo[props.buf].modified then
+						filename = "[+] " .. filename
+					end
+
+					local icon, color = require("nvim-web-devicons").get_icon_color(filename)
+					return { { icon, guifg = color }, { " " }, { filename } }
+				end,
+			})
+		end,
+	},
+
+	-- statusline
+	{
+		"nvim-lualine/lualine.nvim",
+		opts = function(_, opts)
+			local LazyVim = require("lazyvim.util")
+			opts.sections.lualine_c[4] = {
+				LazyVim.lualine.pretty_path({
+					length = 0,
+					relative = "cwd",
+					modified_hl = "MatchParen",
+					directory_hl = "",
+					filename_hl = "Bold",
+					modified_sign = "",
+					readonly_icon = " 󰌾 ",
+				}),
+			}
+		end,
+	},
+
+	{
+		"folke/zen-mode.nvim",
+		cmd = "ZenMode",
+		opts = {
+			plugins = {
+				gitsigns = true,
+				tmux = true,
+				kitty = { enabled = false, font = "+2" },
+			},
+		},
+		keys = { { "<leader>z", "<cmd>ZenMode<cr>", desc = "Zen Mode" } },
+	},
+
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		enabled = false,
+	},
+
+	{
+		"folke/snacks.nvim",
+		opts = {
+			dashboard = {
+				preset = {
+					header = [[
+	        ██████╗ ███████╗██╗   ██╗ █████╗ ███████╗██╗     ██╗███████╗███████╗
+	        ██╔══██╗██╔════╝██║   ██║██╔══██╗██╔════╝██║     ██║██╔════╝██╔════╝
+	        ██║  ██║█████╗  ██║   ██║███████║███████╗██║     ██║█████╗  █████╗
+	        ██║  ██║██╔══╝  ╚██╗ ██╔╝██╔══██║╚════██║██║     ██║██╔══╝  ██╔══╝
+	        ██████╔╝███████╗ ╚████╔╝ ██║  ██║███████║███████╗██║██║     ███████╗
+	        ╚═════╝ ╚══════╝  ╚═══╝  ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚═╝     ╚══════╝
+   ]],
+				},
+			},
+		},
+	},
 }
