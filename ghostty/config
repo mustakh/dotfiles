@@ -1,12 +1,10 @@
-theme = Rose Pine
+background = #141413
+background-opacity = 1.5
 
 font-family = "PlemolJP Console NF"
-background = #000000
 
 cursor-style = block
 cursor-style-blink = true
-cursor-color = #ffffff
-cursor-text = #000000
 
 #keybind = global:cmd+ctrl+shift+j=toggle_visibility
 

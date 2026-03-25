@@ -12,14 +12,14 @@ return {
 				disable_nvimtree_bg = true,
 
 				color_overrides = {
-					vscBack = "#000000", -- основной фон
+					vscBack = "#131314", -- основной фон
 				},
 
 				group_overrides = {
-					Normal = { bg = "#000000" },
-					NormalNC = { bg = "#000000" },
-					SignColumn = { bg = "#000000" },
-					EndOfBuffer = { bg = "#000000" },
+					Normal = { bg = "#131314" },
+					NormalNC = { bg = "#131314" },
+					SignColumn = { bg = "#131314" },
+					EndOfBuffer = { bg = "#131314" },
 				},
 			})
 
